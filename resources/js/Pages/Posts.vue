@@ -14,6 +14,7 @@ import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue';
 import Bell from 'vue-material-design-icons/Bell.vue';
 import VideoImage from 'vue-material-design-icons/VideoImage.vue';
 import Flag from 'vue-material-design-icons/Flag.vue';
+import Post from '@/components/Post.vue';
 
 
 const user = usePage().props.auth.user;
@@ -70,6 +71,7 @@ const user = usePage().props.auth.user;
 
             <div id="PostSection" class="row-span-6 max-w-[600px] lg:mx-0 mx-auto overflow-auto">
               <CreatePostBox image="https://picsum.photos/id/140/300/320" placeholder="what's on your mind AdelekeOfAfrica" />
+              <Post />
             </div>
 
             <div id="RightSection" class="pl-4 md:block hidden">
