@@ -28,7 +28,9 @@ let showMenu =ref(false);
 <template>
    <div id="MainNav" class="fixed z-50 w-full flex items-center justify-between h-[56px] bg-white shadow-xl border-b">
       <div id="NavLeft" class = "flex items-center justify-start w-[260px]">
-         <Link href="/" class="pl-3 min-w-[55px]">FB</Link>
+         <Link href="/" class="pl-3 min-w-[55px]">
+         <img class="w-[40px]" src="/images/icons/FacebookLogoCircle.png" />
+         </Link>
 
          <div class="flex items-center justify-center bg-[#EFF2F5] p-1 rounded-full h-[40px] ml-2">
             <Magnify class="p-1" :size="22" fillColor="#64676B" />
