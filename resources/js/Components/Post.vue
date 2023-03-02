@@ -66,6 +66,31 @@ const form = reactive({comment:null});
                     <Link href="/" class="mr-2">
                         <img class="rounded-full ml-1 min-w-[36px] max-h-[36px]" src="https://picsum.photos/id/189/800/800"/>
                     </Link>
+                    <div class="flex item-center justify-center bg-[#EFF2F5] p-2 rounded-full w-full">
+                        <input v-model="form.comment" class="w-full mx-1 border-none p-0 text-sm bg-[#EFF2F5] placeholder-[#64676B] ring-0 focus:ring-0" placeholder="write a public comment ..." type="text">
+                        <button type="button" class="flex items-center text-sm pl-2 pr-3.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold ">
+                            <Check :size="20" fillColor="#FFFFFF" /> Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Comments" class="max-h-[120px] overflow-auto pb-2 px-4">
+                <div class="flex items-center justify-between pb-2">
+                    <div class="flex items-center w-full mb-1">
+                        <Link href="/" class="mr-2">
+                             <img class="rounded-full ml-1 min-w-[36px] max-h-[36px]" src="https://picsum.photos/id/189/800/800"/>
+                        </Link>
+
+                        <div class="flex items-center w-full">
+                            <div class="flex items-center bg-[#EFF2F5] text-xs p-2 rounded-lg w-full">
+                            This is a comment 
+                            </div>
+                            <button class="rounded-full p-1.5 ml-2 cursor-pointer hover:bg-[#F2F2F2]">
+                                <Delete fillColor="#64676B" />
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
