@@ -11,6 +11,7 @@ import ControllerClassicOutline from 'vue-material-design-icons/ControllerClassi
 import FacebookMessenger from 'vue-material-design-icons/FacebookMessenger.vue';
 import Bell from 'vue-material-design-icons/Bell.vue';
 import Logout from 'vue-material-design-icons/Logout.vue';
+import CropperModal from '@/components/CropperModal.vue';
 import DotsGrid from 'vue-material-design-icons/DotsGrid.vue';
 
 
@@ -112,4 +113,6 @@ let showMenu =ref(false);
       </div>
    </div>
    <slot />
+
+   <CropperModal v-if="isCropperModal" @showModal="isCropperModal=false" />
 </template>
