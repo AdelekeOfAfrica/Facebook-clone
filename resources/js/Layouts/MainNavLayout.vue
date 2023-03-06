@@ -12,6 +12,7 @@ import FacebookMessenger from 'vue-material-design-icons/FacebookMessenger.vue';
 import Bell from 'vue-material-design-icons/Bell.vue';
 import Logout from 'vue-material-design-icons/Logout.vue';
 import CropperModal from '@/components/CropperModal.vue';
+import CreatePostOverlay from '@/components/CreatePostOverlay.vue';
 import ImageDisplay from '@/components/ImageDisplay.vue';
 import DotsGrid from 'vue-material-design-icons/DotsGrid.vue';
 
@@ -114,7 +115,7 @@ let showMenu =ref(false);
       </div>
    </div>
    <slot />
-
+  <CreatePostOverlay v-if="isPostOverlay" @showModal="isPostOverlay=false" />
    <CropperModal v-if="isCropperModal" @showModal="isCropperModal=false" /> <!-- Adding of images with crop effect  -->
    <ImageDisplay v-if="isImageDisplay" /><!-- Displaying of image-->
 </template>
