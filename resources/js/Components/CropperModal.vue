@@ -24,6 +24,8 @@
     const crop = () => {
         const { coordinates, canvas } = cropper.value.getResult()
         croppedImageData.imageUrl = canvas.toDataURL()
+
+           // console.log( croppedImageData.imageUrl)
         let data = new FormData();
         data.append('image', fileInput.value.files[0] || '')
         data.append('height', coordinates.height || '')
@@ -49,6 +51,32 @@
                             <Close :size="28" fillColor="#5E6771" />
                         </div>
                     </div>
+
+                    <div class="flex items-center bg-white px-4 pb-4">
+                        <div>
+                            <div class="my-4">
+                                <label for="image" class="flex items-center justify-center bg-[#E7F3FF] hover:bg-[#DBE7F2] font-bold p-2 rounded-lg text-[#1977F2] w-full cursor-pointer">
+                                    <Plus :size="20" /> Upload Photo
+                                </label>
+                                <input type="file" id="image" ref="fileInput" class="hidden" @change="getUploadedImage"> <!-- this is from the function get uploaded image -->
+                            </div>
+
+                            <div class="w-[350px] mx-auto">
+                                <Cropper class="object-cover" ref="cropper" :stencil-component="CircleStencil" :src="uploadedImage" />
+                            </div>
+
+                            <div class="flex gap-4" :class="uploadedImage ? 'pt-4': ''">
+                                <button @click="$emit('showModal', false)" type="button" class="w-full justify-center rounded-md py-2 text-gray-600 hover:text-gray-800 font-bold hover:shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-0">
+                                    Cancel
+                                </button>
+
+                                <button v-if="uploadedImage" @click="crop" type="button" class="w-full rounded-md bg-blue-500 py-2 text-white font-bold shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-0">
+                                    Crop Image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

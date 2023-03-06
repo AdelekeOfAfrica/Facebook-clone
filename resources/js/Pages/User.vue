@@ -11,7 +11,7 @@ import {useGeneralStore} from '@/Stores/general';
 import {storeToRefs} from 'pinia';
 
 const useGeneral =  useGeneralStore();
-const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral);
+const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral); //used for image resizing 
 
 //defineProps({posts:Object,user:Object});
 
@@ -110,7 +110,7 @@ const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral);
                         <div class="font-extrabold pb-2 text-xl">Photos</div>
                         <div class="flex flex-wrap items-center justify-center w-full">
                             <span class="w-1/3">
-                                <img class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
+                                <img @click="isImageDisplay = 'https://picsum.photos/id/78/300/300' " class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
                             </span>
 
                             <span class="w-1/3">
