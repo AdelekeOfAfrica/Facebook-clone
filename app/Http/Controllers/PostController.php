@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Services\ImageService;
+use App\Http\Resources\AllPostCollection;
 
 class PostController extends Controller
 {
@@ -15,7 +18,11 @@ class PostController extends Controller
     public function index()
     {
         //
-        return Inertia::render('Posts');
+        $posts =Post::orderBy('Created_at', 'desc')->get();
+
+        return Inertia::render('Posts',[
+            'posts'=> new AllPostCollection($posts)
+        ]);
     }
 
     /**
@@ -23,9 +30,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $request->validate(['text'=>'required']);
+        $post = new Post;
+
+        if($request->hasFile('image')){
+            $request->validate(['image' => 'required|mimes:jpeg,jpg,png']);
+            $post = (new ImageService)->updateImage($post, $request);
+        }
+        $post->user_id = auth()->user()->id;
+        $post->text = $request->input('text');
+        $post->save();
+
+
     }
 
     /**
@@ -76,11 +95,22 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(int $id)
     {
         //
+        $post = Post::find($id);
+
+        if(!empty($post->image)) {
+            $currentImage = public_path() . $post->image;
+
+            if(file_exists($currentImage)) {
+                unlink($currentImage);
+
+            }
+        }
+        $post->delete();
     }
 }
