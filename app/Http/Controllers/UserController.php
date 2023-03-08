@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Services\ImageService;
+use App\Http\Resources\AllPostCollection;
 
 class UserController extends Controller
 {
@@ -14,6 +18,11 @@ class UserController extends Controller
     public function index()
     {
         //
+        $posts = Post::where('user_id', auth()->user()->id)->orderBy('created_at','desc')->get();
+
+        return Inertia::Render('User',[
+            'posts' =>new AllPostCollection($posts)
+        ]);
     }
 
     /**
@@ -46,6 +55,11 @@ class UserController extends Controller
     public function show($id)
     {
         //
+        $posts = Post::where('user_id', $id)->orderBy('created_at','desc')->get();
+        return Inertia::Render('User',[
+            'user'=>User::find($id),
+            'posts' =>new AllPostCollection($posts)
+        ]);
     }
 
     /**
@@ -66,9 +80,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateImage(Request $request)
     {
         //
+
+        $request->validate(['image' => 'required|mimes:jpeg,jpg,png']);
+        $user = (new ImageService)->updateImage(auth()->user(), $request);
+        $user->save();
     }
 
     /**
