@@ -13,7 +13,7 @@ import {storeToRefs} from 'pinia';
 const useGeneral =  useGeneralStore();
 const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral); //used for image resizing 
 
-//defineProps({posts:Object,user:Object});
+defineProps({posts:Object,user:Object});
 
 </script>
 
@@ -29,14 +29,14 @@ const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral); //used for ima
                     <div id="ProfileInfo"  class="flex md:flex-row flex-col items-center justify-between px-4">
                         <div class="flex  md:flex-row flex-col gap-4 md:-mt-6 -mt-16 items-center">
                             <div class="relative">
-                                <img class="rounded-full w-[165px] h-[165px] border-white border-4" src="https://picsum.photos/id/200/500/500">
-                                <button @click="isCropperModal=true" class="absolute right-0 top-[100px] bg-gray-200 hover:bg-gray-300 p-1.5 rounded-full cursor-pointer">
+                                <img class="rounded-full w-[165px] h-[165px] border-white border-4" :src="user.image">
+                                <button v-if="$page.props.auth.user.id === user.id" @click="isCropperModal=true" class="absolute right-0 top-[100px] bg-gray-200 hover:bg-gray-300 p-1.5 rounded-full cursor-pointer">
                                     <Camera :size="25" />
                                 </button>
                             </div>
                             <div class="md:mt-4 text-center md:text-left -mt-3">
                                 <div class="text-[28px] font-extrabold pt-1"> 
-                                    AdelekeOfAfrica
+                                    {{user.name}}
                                 </div>
                                 <div class="text-[17px] font-bold  text-gray-600 mb-1.5 text-center md:text-left">10 friends</div>
                                 <div class="flex md:justify-start justify-center md:ml-1">
@@ -51,7 +51,7 @@ const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral); //used for ima
                         </div>
 
 
-                        <Link href="/" class="flex justify-center w-7/12 md:w-[160px] items-baseline md:my-0 my-4 bg-gray-200 hover:bg-gray-300 rounded-lg cursor-pointer">
+                        <Link  v-if="$page.props.auth.user.id === user.id" :href="route('profile.edit')" class="flex justify-center w-7/12 md:w-[160px] items-baseline md:my-0 my-4 bg-gray-200 hover:bg-gray-300 rounded-lg cursor-pointer">
                             <button class="flex items-center px-5 py-2 font-bold">
                                 <Pen class="-ml-2 mr-1" :size="22" /> Edit Profile
                             </button>
@@ -109,28 +109,8 @@ const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral); //used for ima
                     <div class="bg-white p-3 mt-4 rounded-lg shadow-lg">
                         <div class="font-extrabold pb-2 text-xl">Photos</div>
                         <div class="flex flex-wrap items-center justify-center w-full">
-                            <span class="w-1/3">
-                                <img @click="isImageDisplay = 'https://picsum.photos/id/78/300/300' " class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
-                            </span>
-
-                            <span class="w-1/3">
-                                <img class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
-                            </span>
-
-                            <span class="w-1/3">
-                                <img class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
-                            </span>
-
-                            <span class="w-1/3">
-                                <img class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
-                            </span>
-
-                            <span class="w-1/3">
-                                <img class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
-                            </span>
-
-                            <span class="w-1/3">
-                                <img class="aspect-square object-cover p-1 rounded-lg cursor-pointer" src="https://picsum.photos/id/78/300/300" />
+                            <span v-for="photo in posts.data" :key="photo" class="w-1/3">
+                                <img v-if="photo.image" @click="isImageDisplay = photo.image " class="aspect-square object-cover p-1 rounded-lg cursor-pointer" :src="photo.image" />
                             </span>
                         </div>
                     </div>
@@ -138,8 +118,11 @@ const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral); //used for ima
 
 
                <div id="PostSection" class="w-full md:w-7/12 overflow-auto">
-                    <CreatePostBox image="https://picsum.photos/id/140/300/320" placeholder="what's on your mind AdelekeOfAfrica" />
-                    <Post />
+                    <CreatePostBox v-if="$page.props.auth.user.id === user.id" :image="user.image" :placeholder="'what\s on your mind ' + user.name" />
+                    <div v-for="post in posts.data" :key="post">
+                        <Post :user="post.user" :post="post" :comments="post.comments" />
+                    </div>
+                    
                </div>
             </div>
         </div>

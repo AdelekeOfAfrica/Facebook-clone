@@ -15,13 +15,41 @@ const {isPostOverlay, isImageDisplay} = storeToRefs(useGeneral);
 
 const form = reactive({comment:null});
 
-//const props = defineProps({
-//    user:Object,
-//    post:Object,
-//    comments:Object
-//});
-//
-//const {user, post, comments} = toRefs(props);//
+const props = defineProps({
+    user:Object,
+    post:Object,
+    comments:Object
+});
+
+const {user, post, comments} = toRefs(props);
+
+
+const createComment = () =>{
+    router.post('/comment',{
+        post_id:post.value.id,
+        text: form.comment
+    },
+    {
+        preserveScroll: true,
+ })
+
+const deleteComment = (id) =>{
+    router.delete('/comment/' + id, {
+        preserveScroll: true,
+    })
+}
+
+const deletepost = (id) =>{
+    router.delete('/post/' +id, {
+        preserveScroll:true,
+    })
+}
+
+const isUser = () =>{
+    router.get('/user/' + user.value.id);
+}
+
+}
 </script>
 
 
