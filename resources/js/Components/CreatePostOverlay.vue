@@ -32,12 +32,12 @@ let error = ref(null);
 const createPost = () => {
     router.post('/post', form, {
         forceFormData:true,
-        preserveScoll:true,
+        preserveScroll:true,
         onError: errors => {
-            errors && errors.text ? error.value = error.text:'',
-            errors && errors.image ? error.value = error.image:''
+            errors && errors.text ? error.value = errors.text:'',
+            errors && errors.image ? error.value = errors.image:''
         }, 
-        onSuccess:() =>{
+        onSuccess: () =>{
             form.text = null,
             form.image = null,
             imageDisplay.value = null

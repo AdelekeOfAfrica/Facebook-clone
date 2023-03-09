@@ -22,7 +22,7 @@ class AllPostCollection extends ResourceCollection
                 'text'=>$item->text,
                 'image'=>$item->image,
                 'created_at'=>$item->created_at->format('M D Y'),
-                'comments'=>$item->comment->map(function ($comment){
+                'comments'=>$item->comments->map(function ($comment){
                     return [
                         'id'=>$comment->id,
                         'text'=>$comment->text,

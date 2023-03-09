@@ -71,7 +71,7 @@ const isUser = () => {
         <div id="Likes" class="px-5">
             <div class="flex items-center justify-between py-3 border-b">
                 <ThumbUp fillColor="#1D72E2" :size="16" />
-                <div class="text-sm text-gray-600 font-semibold"> {{comment.length}} Comments </div>
+                <div class="text-sm text-gray-600 font-semibold"> {{comments.length}} Comments </div>
             </div>
         </div>
 
@@ -94,7 +94,7 @@ const isUser = () => {
             <div v-if="comments" id="Comments" class="max-h-[120px] overflow-auto pb-2 px-4">
                 <div class="flex items-center justify-between pb-2" v-for="comment in comments" :key="comment">
                     <div class="flex items-center w-full mb-1">
-                        <Link :href="route('post.index')" class="mr-2">
+                        <Link :href="route('posts.index')" class="mr-2">
                              <img class="rounded-full ml-1 min-w-[36px] max-h-[36px]" :src="comment.user.image"/>
                         </Link>
 
