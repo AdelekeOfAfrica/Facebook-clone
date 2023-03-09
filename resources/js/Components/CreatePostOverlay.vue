@@ -29,6 +29,23 @@ const form = reactive({
 
 let error = ref(null);
 
+const createPost = () => {
+    router.post('/post', form, {
+        forceFormData:true,
+        preserveScoll:true,
+        onError: errors => {
+            errors && errors.text ? error.value = error.text:'',
+            errors && errors.image ? error.value = error.image:''
+        }, 
+        onSuccess:() =>{
+            form.text = null,
+            form.image = null,
+            imageDisplay.value = null
+            emit('showModal', false)
+        }
+    })
+}
+
 const getUploadedImage = (e) => 
 {
     imageDisplay.value = URL.createObjectURL(e.target.files[0]);
@@ -60,9 +77,9 @@ const clearImage= () =>
                 <div class="border-t border-t-gray-300">
                     <div class="p-4">
                         <div class="flex items-center">
-                            <img class="rounded-full ml-1 min-w-[45px] max-h-[45px]" src="https://picsum.photos/id/78/800/800"/>
+                            <img class="rounded-full ml-1 min-w-[45px] max-h-[45px]" :src="user.image"/>
                             <div class="ml-4">
-                                <div class="font-extrabold">AdelekeOfAfrica</div>
+                                <div class="font-extrabold">{{user.name}}</div>
                                 <div class="flex items-center justify-between w-[100px] bg-gray-200 p-0.5 px-2 rounded-lg">
                                     <Earth :size="18"/>
                                     <span class="font-bold pl-1.5 text-[13px]">Public</span>
@@ -110,7 +127,9 @@ const clearImage= () =>
                                 </div>
                             </div>
 
-                            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white font-extrabold p-1.5 mt-3 rounded-lg">Post</button>
+                            <button @click="createPost" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-extrabold p-1.5 mt-3 rounded-lg">
+                                Post
+                            </button>
                 
                         </div>
                     </div>

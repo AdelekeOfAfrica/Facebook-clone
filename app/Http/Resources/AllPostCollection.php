@@ -21,8 +21,8 @@ class AllPostCollection extends ResourceCollection
                 'id'=>$item->id,
                 'text'=>$item->text,
                 'image'=>$item->image,
-                'create_at'=>$item->created_at->format('M D Y'),
-                'comment'=>$item->comment->map(function ($comment){
+                'created_at'=>$item->created_at->format('M D Y'),
+                'comments'=>$item->comment->map(function ($comment){
                     return [
                         'id'=>$comment->id,
                         'text'=>$comment->text,
@@ -47,4 +47,5 @@ class AllPostCollection extends ResourceCollection
         });
         
     }
+
 }

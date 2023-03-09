@@ -1,54 +1,42 @@
 <script setup>
-import {toRefs, reactive} from 'vue';
-import {Link, router} from '@inertiajs/vue3';
-
-import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue';
-import ThumbUp from 'vue-material-design-icons/ThumbUp.vue';
-import Check from 'vue-material-design-icons/Check.vue';
+import { toRefs, reactive } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import ThumbUp from 'vue-material-design-icons/ThumbUp.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
-
-import {useGeneralStore} from '@/Stores/general';
-import {storeToRefs} from 'pinia';
-
-const useGeneral =  useGeneralStore();
-const {isPostOverlay, isImageDisplay} = storeToRefs(useGeneral);
-
-const form = reactive({comment:null});
-
+import { useGeneralStore } from '@/stores/general';
+import { storeToRefs } from 'pinia';
+const useGeneral = useGeneralStore()
+const { isImageDisplay } = storeToRefs(useGeneral)
+const form = reactive({ comment: null })
 const props = defineProps({
-    user:Object,
-    post:Object,
-    comments:Object
+    user: Object,
+    post: Object,
+    comments: Object,
 });
-
-const {user, post, comments} = toRefs(props);
-
-
-const createComment = () =>{
-    router.post('/comment',{
-        post_id:post.value.id,
+const { post, user, comments } = toRefs(props)
+const createComment = () => {
+    router.post('/comment', {
+        post_id: post.value.id,
         text: form.comment
     },
     {
         preserveScroll: true,
- })
-
-const deleteComment = (id) =>{
+    })
+}
+const deleteComment = (id) => {
     router.delete('/comment/' + id, {
-        preserveScroll: true,
+        preserveScroll: true
     })
 }
-
-const deletepost = (id) =>{
-    router.delete('/post/' +id, {
-        preserveScroll:true,
+const deletePost = (id) => {
+    router.delete('/post/' + id, {
+        preserveScroll: true
     })
 }
-
-const isUser = () =>{
-    router.get('/user/' + user.value.id);
-}
-
+const isUser = () => {
+    router.get('/user/' + user.value.id)
 }
 </script>
 
@@ -56,15 +44,15 @@ const isUser = () =>{
 <template>
     <div id="Post" class="w-full bg-white rounded-lg my-4 shadow-md">
         <div class="flex items-center py-3 px-3">
-            <button class="mr-2">
-                <img class="rounded-full ml-1 min-w-[42px] max-h-[42px]" src="https://picsum.photos/id/87/300/320">
+            <button @click="isUser" class="mr-2">
+                <img class="rounded-full ml-1 min-w-[42px] max-h-[42px]" :src="user.image">
             </button>
 
             <div class="flex items-center justify-between p-2 rounded-full w-full">
                 <div>
-                    <div class="font-extrabold text-[15px]">AdelekeOfAfrica</div>
+                    <div class="font-extrabold text-[15px]">{{user.name}}</div>
                     <div class="flex items-center text-xs text-gray-600">
-                      14h <AccountMultiple class="ml-1" :size="15" fillColor="#64676B" />
+                     {{post.created_at}}  <AccountMultiple class="ml-1" :size="15" fillColor="#64676B" />
                     </div>
                 </div>
 
@@ -77,44 +65,44 @@ const isUser = () =>{
         </div>
 
         <div class="px-5 pb-2 text-[17px] font-semibold">
-            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, 
-            vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+         {{post.text}}
         </div>
-        <img @click="isImageDisplay='https://picsum.photos/id/189/800/800'" class="mx-auto cursor-pointer" src="https://picsum.photos/id/189/800/800"/>
+        <img @click="isImageDisplay=post.image" class="mx-auto cursor-pointer" :src="post.image"/>
         <div id="Likes" class="px-5">
             <div class="flex items-center justify-between py-3 border-b">
                 <ThumbUp fillColor="#1D72E2" :size="16" />
-                <div class="text-sm text-gray-600 font-semibold"> 5 Comments </div>
+                <div class="text-sm text-gray-600 font-semibold"> {{comment.length}} Comments </div>
             </div>
         </div>
 
         <div id="comments" class="px-3">
             <div id="CreateComment" class="flex items-center justify-between py-2">
                 <div class="flex items-center w-full">
-                    <Link href="/" class="mr-2">
-                        <img class="rounded-full ml-1 min-w-[36px] max-h-[36px]" src="https://picsum.photos/id/189/800/800"/>
+                    <Link :href="route('user.show',{id:$page.props.auth.user.id})" class="mr-2">
+                        <img class="rounded-full ml-1 min-w-[36px] max-h-[36px]" :src="$page.props.auth.user.image"/>
                     </Link>
                     <div class="flex item-center justify-center bg-[#EFF2F5] p-2 rounded-full w-full">
                         <input v-model="form.comment" class="w-full mx-1 border-none p-0 text-sm bg-[#EFF2F5] placeholder-[#64676B] ring-0 focus:ring-0" placeholder="write a public comment ..." type="text">
-                        <button type="button" class="flex items-center text-sm pl-2 pr-3.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold ">
+                        
+                        <button @click="createComment" type="button" class="flex items-center text-sm pl-2 pr-3.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold ">
                             <Check :size="20" fillColor="#FFFFFF" /> Send
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div id="Comments" class="max-h-[120px] overflow-auto pb-2 px-4">
-                <div class="flex items-center justify-between pb-2">
+            <div v-if="comments" id="Comments" class="max-h-[120px] overflow-auto pb-2 px-4">
+                <div class="flex items-center justify-between pb-2" v-for="comment in comments" :key="comment">
                     <div class="flex items-center w-full mb-1">
-                        <Link href="/" class="mr-2">
-                             <img class="rounded-full ml-1 min-w-[36px] max-h-[36px]" src="https://picsum.photos/id/189/800/800"/>
+                        <Link :href="route('post.index')" class="mr-2">
+                             <img class="rounded-full ml-1 min-w-[36px] max-h-[36px]" :src="comment.user.image"/>
                         </Link>
 
                         <div class="flex items-center w-full">
                             <div class="flex items-center bg-[#EFF2F5] text-xs p-2 rounded-lg w-full">
-                            This is a comment 
+                          {{comment.text}}
                             </div>
-                            <button class="rounded-full p-1.5 ml-2 cursor-pointer hover:bg-[#F2F2F2]">
+                            <button v-if="$page.props.auth.user.id === comment.user.id" @click="deleteComment(comment.id)" class="rounded-full p-1.5 ml-2 cursor-pointer hover:bg-[#F2F2F2]">
                                 <Delete fillColor="#64676B" />
                             </button>
                         </div>

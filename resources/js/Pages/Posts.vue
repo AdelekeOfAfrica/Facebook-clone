@@ -16,6 +16,9 @@ import VideoImage from 'vue-material-design-icons/VideoImage.vue';
 import Flag from 'vue-material-design-icons/Flag.vue';
 import Post from '@/components/Post.vue';
 
+defineProps({
+  posts:Object
+})
 
 const user = usePage().props.auth.user;
 </script>
@@ -71,7 +74,10 @@ const user = usePage().props.auth.user;
 
             <div id="PostSection" class="row-span-6 max-w-[600px] lg:mx-0 mx-auto overflow-auto">
               <CreatePostBox image="https://picsum.photos/id/140/300/320" placeholder="what's on your mind AdelekeOfAfrica" />
-              <Post />
+            
+              <div v-for="post in posts.data" :key="post">
+                  <Post :user="post.user" :post="post" :comments="post.comments" /> <!-- added this -->
+              </div>
             </div>
 
             <div id="RightSection" class="pl-4 md:block hidden">

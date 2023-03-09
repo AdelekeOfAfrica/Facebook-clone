@@ -21,7 +21,7 @@ class UserController extends Controller
         //
         $posts = Post::where('user_id', auth()->user()->id)->orderBy('created_at','desc')->get();
 
-        return Inertia::Render('User',[
+        return Inertia::render('User',[
             'posts' =>new AllPostCollection($posts)
         ]);
     }
@@ -53,11 +53,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show( $id)
     {
         //
         $posts = Post::where('user_id', $id)->orderBy('created_at','desc')->get();
-        return Inertia::Render('User',[
+        return Inertia::render('User',[
             'user'=>User::find($id),
             'posts' =>new AllPostCollection($posts)
         ]);

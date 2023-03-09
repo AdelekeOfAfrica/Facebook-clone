@@ -3,18 +3,16 @@ import { Link, Head } from '@inertiajs/vue3';
 import MainNavLayout from '@/Layouts/MainNavLayout.vue';
 import CreatePostBox from '@/Components/CreatePostBox.vue';
 import Post from '@/Components/Post.vue';
-
 import Camera from 'vue-material-design-icons/Camera.vue';
 import Pen from 'vue-material-design-icons/Pen.vue';
-
 import {useGeneralStore} from '@/Stores/general';
 import {storeToRefs} from 'pinia';
-
 const useGeneral =  useGeneralStore();
 const {isCropperModal,isImageDisplay } = storeToRefs(useGeneral); //used for image resizing 
-
-defineProps({posts:Object,user:Object});
-
+defineProps({
+    posts: Object,
+    user: Object,
+    });
 </script>
 
 <template>
