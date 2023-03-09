@@ -33,16 +33,7 @@ class PostController extends Controller
     public function create(Request $request)
     {
         //
-        $request->validate(['text'=>'required']);
-        $post = new Post;
-
-        if($request->hasFile('image')){
-            $request->validate(['image' => 'required|mimes:jpeg,jpg,png']);
-            $post = (new ImageService)->updateImage($post, $request);
-        }
-        $post->user_id = auth()->user()->id;
-        $post->text = $request->input('text');
-        $post->save();
+      
 
 
     }
@@ -56,6 +47,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate(['text'=>'required']);
+        $post = new Post;
+
+        if($request->hasFile('image')){
+            $request->validate(['image' => 'required|mimes:jpeg,jpg,png']);
+            $post = (new ImageService)->updateImage($post, $request);
+        }
+        $post->user_id = auth()->user()->id;
+        $post->text = $request->input('text');
+        $post->save();
     }
 
     /**

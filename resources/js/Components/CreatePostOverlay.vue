@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive} from 'vue';
+import {ref, reactive } from 'vue';
 import {router, usePage} from '@inertiajs/vue3';
 
 import VideoImage from 'vue-material-design-icons/VideoImage.vue';
