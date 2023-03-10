@@ -32,6 +32,10 @@
         data.append('width', coordinates.width || '')
         data.append('left', coordinates.left || '')
         data.append('top', coordinates.top || '')
+
+        router.post('/user/update-image', data, {
+            preserveState:false,
+        })
       
         emit('showModal', false)
     }

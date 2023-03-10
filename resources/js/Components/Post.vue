@@ -71,7 +71,7 @@ const isUser = () => {
         <div id="Likes" class="px-5">
             <div class="flex items-center justify-between py-3 border-b">
                 <ThumbUp fillColor="#1D72E2" :size="16" />
-                <div class="text-sm text-gray-600 font-semibold"> {{comments.length}} Comments </div>
+                <div class="text-sm text-gray-600 font-semibold"> {{comments.length}} Comment </div>
             </div>
         </div>
 
